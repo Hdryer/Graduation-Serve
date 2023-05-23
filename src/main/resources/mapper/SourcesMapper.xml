@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bindada.mapper.SourcesMapper">
+    <select id="ListSources" resultType="com.bindada.vo.SourcesVO">
+        select user.user_name,sources.* from user,sources
+        where user.id = sources.creator_id
+        AND sources.status ='审核通过'
+    </select>
+
+    <select id="queryChecking" resultType="com.bindada.vo.SourcesVO">
+        select user.user_name,sources.* from user,sources
+        where user.id = sources.creator_id
+        AND sources.status ='待审核'
+    </select>
+
+</mapper>

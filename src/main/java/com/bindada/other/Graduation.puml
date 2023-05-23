@@ -1,0 +1,114 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+/'用户实体表'/
+class User<用户>{
+    +id:varchar64<主键>
+    userName:varchar64<用户名>
+    phone:varchar64<电话号码>
+    email:varchar64<邮箱>
+    password:varchar64<密码>
+    type:int2<用户类型>  /'各界人员,管理员,讲课老师，学生'/
+    age:int2<年龄>
+    sex:int2<性别>
+    description:varchar255<备注>
+}
+
+class Subject<科目表>{
+    +id:varchar64<主键>
+    typeOne:varchar64<领域>
+    typeTwo:varchar64<方向>
+}
+Subject o--Course
+
+
+class Sourses<资源表>{
+    +id:varchar64<唯一索引>
+    typeOne:varchar64<领域>
+    typeTwo:varchar64<方向>
+    title:varchar64<题目>
+    fileName:varchar64<文件名>
+    status:varchar64<审核状态>
+    type:varchar64<资源类型>
+}
+Sourses o--Course
+
+class Course<课程>{
+    +id:varchar64<主键>
+    typeOne：varchar64<分类一>
+    typeTwo: varchar64<分类二>
+    name:varchar64<课程名称>
+    teacherId:varchar64<教师ID>
+    teacherName:varchar64<教师名字>
+    avatar:varchar255<封面url>
+    url:varchar255<视频url>
+}
+Course o-- User
+
+class Paper<试卷>{
+    +id:varchar64<主键>
+    course_id:varchar64<课程Id>
+    name:varchar64<试卷名称>
+    status:int10<可用状态>
+    score:int10<试卷总分>
+    time:int10<考试时长>
+    num:int10<题目数量>
+}
+Paper o-- Course
+
+
+class examRecord<考试记录表>{
+    +id:varchar64<主键>
+    studentId:varchar64<学生Id>
+    paperId:varchar64<试卷Id>
+    score:int10<实际得分>
+    start_time:dateTime<开始考试时间>
+    End_time:dateTime<结束考试时间>
+}
+examRecord o--Paper
+
+class examDetailRecord<考试记录详情表>{
+    +id:varchar64<主键>
+    studentId:varchar64<学生ID>
+    examRecordId:varchar64<考试ID>
+    paperId:varchar64<试卷ID>
+    QuestionId:int10<试题ID>
+    studentAnswer:text<学生答案>
+    score:int10<实际得分>
+}
+
+examDetailRecord o--examRecord
+
+class Question<问题>{
+    +id:int10<主键>
+    paperId:varchar255<试卷Id>
+    typeOne:varchar64<领域>
+    typeTwo:varchar64<方向>
+    type:varchar64<题目类型>
+    content:text<题目内容>
+    options:text<题目选项>
+    answer:text<答案>
+    analysis:text<解析>
+    score:int10<分值>
+    difficulty:int2<难度系数>
+}
+Question o--Paper
+
+class PaperQuestion<试卷问题映射表>{
+    +id:varchar64<主键>
+    questionId:int10<试题ID>
+    paperId:varchar64<试卷ID>
+}
+PaperQuestion o--Question
+
+class Outline<大纲>{
+    +id:varchar64<主键ID>
+    course_id:varchar64<课程Id>
+    title:varchar64<标题>
+    url:varchar64<资源存放路径>
+    teacherId:varchar64<授课老师>
+    type:varchar64<课程类型，产学研>
+    num:int10<顺序>
+}
+Outline o--Course
+@enduml
